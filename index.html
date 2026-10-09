@@ -1,0 +1,388 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090d18">
+  <meta name="description" content="A modern GitHub repository and code management workspace.">
+  <title>GitHub Editor — Developer Workspace</title>
+  <link rel="stylesheet" href="/style.css">
+</head><body>
+  <div class="app-shell"><!-- Sidebar -->
+<aside class="sidebar" id="sidebar">
+  <a class="brand" href="/" aria-label="GitHub Editor Home">
+    <div class="brand-logo">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.1c-3.14.68-3.8-1.33-3.8-1.33-.51-1.3-1.26-1.65-1.26-1.65-1.03-.7.08-.69.08-.69 1.14.08 1.74 1.17 1.74 1.17 1.01 1.73 2.65 1.23 3.3.94.1-.73.4-1.23.72-1.51-2.5-.28-5.13-1.25-5.13-5.56 0-1.23.44-2.24 1.17-3.03-.12-.29-.51-1.44.11-2.99 0 0 .95-.3 3.08 1.16a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.16 3.08-1.16.62 1.55.23 2.7.11 2.99.73.79 1.17 1.8 1.17 3.03 0 4.32-2.63 5.27-5.14 5.55.41.36.77 1.04.77 2.1v3.14c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/>
+      </svg>
+    </div>
+    <div class="brand-text">
+      <strong>GitHub Editor</strong>
+      <span>Developer Workspace</span>
+    </div>
+  </a>
+
+  <div class="sidebar-section">
+    <div class="section-label">WORKSPACE</div>
+
+    <button class="nav-item active" id="dashboardNav" type="button">
+      <span class="nav-icon">◫</span>
+      <span>Dashboard</span>
+    </button>
+
+    <button class="nav-item" id="repositoriesNav" type="button">
+      <span class="nav-icon">▤</span>
+      <span>Repositories</span>
+    </button>
+
+    <button class="nav-item" id="editorNav" type="button">
+      <span class="nav-icon">{ }</span>
+      <span>Code Editor</span>
+    </button>
+  </div>
+
+  <div class="sidebar-section repo-sidebar-section">
+    <div class="section-heading">
+      <span class="section-label">YOUR REPOSITORIES</span>
+      <button class="small-icon-button" id="refreshRepos" type="button" title="Refresh repositories">↻</button>
+    </div>
+
+    <div id="repoList" class="sidebar-repo-list">
+      <div class="sidebar-empty">Connect GitHub to load repositories.</div>
+    </div>
+  </div>
+
+  <div class="sidebar-bottom">
+    <div class="connection-card">
+      <span class="connection-dot" id="connectionDot"></span>
+      <div>
+        <strong id="connectionStatus">Not connected</strong>
+        <span>GitHub connection</span>
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <span class="footer-mark">GE</span>
+      <div>
+        <strong>GitHub Editor</strong>
+        <span>Version 1.0.0</span>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- Main Area -->
+<main class="main-area">
+
+  <!-- Top Bar -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="mobile-menu-button" id="mobileMenu" type="button" aria-label="Toggle navigation">☰</button>
+
+      <div class="breadcrumb">
+        <span>Workspace</span>
+        <span class="breadcrumb-separator">/</span>
+        <strong id="breadcrumbCurrent">Dashboard</strong>
+      </div>
+    </div>
+
+    <div class="topbar-actions">
+      <div class="status-badge">
+        <span class="status-indicator"></span>
+        <span>Workspace</span>
+      </div>
+
+      <a class="github-link" href="https://github.com/" target="_blank" rel="noopener noreferrer">
+        <span>GitHub</span>
+        <span>↗</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <div class="content-area">
+
+    <!-- Welcome -->
+    <section class="welcome-section">
+      <div class="welcome-copy">
+        <div class="eyebrow">
+          <span class="eyebrow-line"></span>
+          DEVELOPER WORKSPACE
+        </div>
+
+        <h1>Build. Edit. <span>Deploy.</span></h1>
+
+        <p>
+          Your code, your repositories, your workflow.
+          Manage your GitHub projects from one place.
+        </p>
+
+        <div class="welcome-actions">
+          <button class="button button-primary" id="browseRepos" type="button">
+            <span>▤</span>
+            Browse Repositories
+          </button>
+
+          <button class="button button-secondary" id="refreshDashboard" type="button">
+            <span>↻</span>
+            Refresh Workspace
+          </button>
+        </div>
+      </div>
+
+      <div class="welcome-art" aria-hidden="true">
+        <div class="art-glow"></div>
+        <div class="art-ring art-ring-one"></div>
+        <div class="art-ring art-ring-two"></div>
+
+        <div class="code-window">
+          <div class="code-window-header">
+            <div class="window-dots">
+              <i></i><i></i><i></i>
+            </div>
+            <span>bot.js</span>
+            <span class="window-language">JS</span>
+          </div>
+
+          <div class="code-preview">
+            <div><span class="line-no">01</span><span class="code-purple">const</span> <span class="code-blue">workspace</span> = {</div>
+            <div><span class="line-no">02</span>&nbsp;&nbsp;mode: <span class="code-green">'editor'</span>,</div>
+            <div><span class="line-no">03</span>&nbsp;&nbsp;platform: <span class="code-green">'GitHub'</span>,</div>
+            <div><span class="line-no">04</span>&nbsp;&nbsp;ready: <span class="code-orange">true</span></div>
+            <div><span class="line-no">05</span>};</div>
+            <div class="code-last-line"><span class="line-no">06</span><span class="code-purple">await</span> workspace.<span class="code-blue">save</span>();</div>
+          </div>
+
+          <div class="code-window-footer">
+            <span><i class="mini-green-dot"></i> Ready to edit</span>
+            <span>UTF-8</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats-grid">
+      <article class="stat-card">
+        <div class="stat-top">
+          <span class="stat-label">Repositories</span>
+          <span class="stat-icon icon-purple">▤</span>
+        </div>
+        <div class="stat-value" id="repoCount">—</div>
+        <div class="stat-description">Available repositories</div>
+      </article>
+
+      <article class="stat-card">
+        <div class="stat-top">
+          <span class="stat-label">Selected Repository</span>
+          <span class="stat-icon icon-blue">⌘</span>
+        </div>
+        <div class="stat-value stat-value-text" id="selectedRepo">None</div>
+        <div class="stat-description">Current workspace</div>
+      </article>
+
+      <article class="stat-card">
+        <div class="stat-top">
+          <span class="stat-label">Editor Status</span>
+          <span class="stat-icon icon-green">{ }</span>
+        </div>
+        <div class="stat-value stat-value-text" id="editorStatus">Ready</div>
+        <div class="stat-description" id="changeStatus">No unsaved changes</div>
+      </article>
+    </section>
+
+    <!-- Main Workspace -->
+    <section class="workspace-section" id="workspace">
+
+      <div class="workspace-header">
+        <div>
+          <div class="section-title-row">
+            <span class="section-title-icon">⌘</span>
+            <h2>Code Workspace</h2>
+          </div>
+          <p>Select a repository and file to start editing.</p>
+        </div>
+
+        <div class="workspace-header-actions">
+          <button class="button button-secondary button-small" id="reloadFile" type="button" disabled>
+            ↻ Reload File
+          </button>
+        </div>
+      </div>
+
+      <div class="workspace-grid">
+
+        <!-- Repository and File Explorer -->
+        <aside class="explorer-panel">
+          <div class="panel-heading">
+            <div>
+              <span class="panel-heading-title">File Explorer</span>
+              <span class="panel-heading-subtitle">Browse project files</span>
+            </div>
+            <span class="panel-heading-icon">▤</span>
+          </div>
+
+          <div class="explorer-context">
+            <span class="context-icon">▣</span>
+            <span id="explorerRepoName">No repository selected</span>
+          </div>
+
+          <div class="explorer-toolbar">
+            <span>PROJECT FILES</span>
+            <button class="small-icon-button" id="refreshFiles" type="button" title="Refresh files">↻</button>
+          </div>
+
+          <div id="fileList" class="file-tree">
+            <div class="explorer-empty">
+              <span class="empty-icon">▤</span>
+              <strong>No files yet</strong>
+              <span>Select a repository to explore its files.</span>
+            </div>
+          </div>
+
+          <div class="explorer-bottom">
+            <div class="explorer-info-row">
+              <span>Repository</span>
+              <strong id="explorerRepoStatus">Not selected</strong>
+            </div>
+            <div class="explorer-info-row">
+              <span>Branch</span>
+              <strong id="explorerBranch">—</strong>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Editor -->
+        <section class="editor-panel">
+
+          <div class="editor-header">
+            <div class="editor-file-heading">
+              <span class="file-type-icon">{ }</span>
+              <div class="editor-file-info">
+                <strong id="currentFile">No file selected</strong>
+                <span id="currentBranch">Select a file to begin</span>
+              </div>
+            </div>
+
+            <div class="editor-header-actions">
+              <span class="editor-state-badge" id="editorBadge">IDLE</span>
+            </div>
+          </div>
+
+          <div class="editor-tabs">
+            <div class="editor-tab active">
+              <span class="tab-file-icon">JS</span>
+              <span id="activeFileTab">No file open</span>
+              <span class="tab-unsaved" id="unsavedIndicator" hidden>●</span>
+            </div>
+          </div>
+
+          <div class="editor-notice" id="editorNotice" role="status">
+            <span class="notice-icon">ⓘ</span>
+            <span>Select a repository, then choose a file to edit.</span>
+          </div>
+
+          <div class="editor-wrapper">
+            <div class="line-numbers" id="lineNumbers">1</div>
+
+            <textarea
+              id="codeEditor"
+              spellcheck="false"
+              autocomplete="off"
+              autocapitalize="off"
+              autocorrect="off"
+              aria-label="Code editor"
+              placeholder="// Your selected file will appear here..."
+              disabled
+            ></textarea>
+          </div>
+
+          <div class="editor-statusbar">
+            <div class="editor-status-left">
+              <span><i class="mini-green-dot"></i> <span id="editorConnection">Ready</span></span>
+              <span id="languageStatus">Plain Text</span>
+            </div>
+            <div class="editor-status-right">
+              <span>UTF-8</span>
+              <span>Spaces: 2</span>
+              <span id="cursorPosition">Ln 1, Col 1</span>
+            </div>
+          </div>
+
+          <!-- Save Changes -->
+          <div class="save-section">
+            <div class="save-section-heading">
+              <div>
+                <h3>Save Changes</h3>
+                <p>Commit your changes directly to GitHub.</p>
+              </div>
+              <span class="save-lock-icon">⌑</span>
+            </div>
+
+            <label for="commitMessage">Commit Message</label>
+            <input
+              type="text"
+              id="commitMessage"
+              maxlength="200"
+              placeholder="Describe your changes..."
+              autocomplete="off"
+            >
+
+            <div class="save-actions">
+              <span class="save-hint">Review your changes before saving.</span>
+              <button class="button button-primary save-button" id="saveFile" type="button" disabled>
+                <span>↑</span>
+                Save to GitHub
+              </button>
+            </div>
+          </div>
+
+        </section>
+      </div>
+    </section>
+
+    <!-- Quick Guide -->
+    <section class="quick-guide">
+      <div class="guide-heading">
+        <div>
+          <div class="section-title-row">
+            <span class="section-title-icon">✦</span>
+            <h2>Quick Start</h2>
+          </div>
+          <p>Get started with your development workflow.</p>
+        </div>
+      </div>
+
+      <div class="guide-grid">
+        <article class="guide-card">
+          <span class="guide-number">01</span>
+          <div class="guide-icon guide-icon-purple">▤</div>
+          <h3>Choose a Repository</h3>
+          <p>Select a GitHub repository from your available projects.</p>
+        </article>
+
+        <article class="guide-card">
+          <span class="guide-number">02</span>
+          <div class="guide-icon guide-icon-blue">{ }</div>
+          <h3>Edit Your Code</h3>
+          <p>Open a file, make your changes, and review the content.</p>
+        </article>
+
+        <article class="guide-card">
+          <span class="guide-number">03</span>
+          <div class="guide-icon guide-icon-green">↑</div>
+          <h3>Commit to GitHub</h3>
+          <p>Enter a commit message and save your changes securely.</p>
+        </article>
+      </div>
+    </section>
+
+    <footer class="main-footer">
+      <span>GitHub Editor <span class="footer-divider">·</span> Developer Workspace</span>
+      <span>Built for your workflow <span class="footer-heart">♥</span></span>
+    </footer>
+
+  </div>
+</main>
+
+  </div>  <div class="mobile-overlay" id="mobileOverlay"></div>  <script src="/app.js" defer></script></body>
+</html>
