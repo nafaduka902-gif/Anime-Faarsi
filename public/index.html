@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10131b">
+
+  <title>GitHub Editor</title>
+
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="login-screen" id="loginScreen">
+    <form class="login-card" id="loginForm">
+      <div class="brand-icon">GH</div>
+
+      <h1>GitHub Editor</h1>
+      <p>Sign in to manage your repositories.</p>
+
+      <label for="password">Access password</label>
+
+      <input
+        id="password"
+        name="password"
+        type="password"
+        autocomplete="current-password"
+        required
+      >
+
+      <button type="submit" id="loginButton">
+        Sign in
+      </button>
+
+      <p class="error-text" id="loginError"></p>
+    </form>
+  </main>
+
+  <div id="workspace" class="app hidden">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-icon">GH</div>
+
+        <div>
+          <strong>GitHub Editor</strong>
+          <small>Repository Workspace</small>
+        </div>
+      </div>
+
+      <div class="sidebar-heading">WORKSPACE</div>
+
+      <button id="dashboardNav" class="nav-item active">
+        Dashboard
+      </button>
+
+      <button id="repositoriesNav" class="nav-item">
+        Repositories
+      </button>
+
+      <button id="editorNav" class="nav-item">
+        Code Editor
+      </button>
+
+      <div class="sidebar-heading">REPOSITORIES</div>
+
+      <div class="repo-list" id="repoList">
+        <p class="muted">Loading repositories...</p>
+      </div>
+
+      <div class="sidebar-bottom">
+        <span id="connectionDot" class="status-dot"></span>
+        <span id="connectionStatus">Connecting...</span>
+      </div>
+    </aside>
+
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <section class="main-area">
+      <header class="topbar">
+        <button id="mobileMenu" class="icon-button" aria-label="Open menu">
+          ☰
+        </button>
+
+        <div class="breadcrumb">
+          Workspace <span>/</span>
+          <strong id="breadcrumbCurrent">Dashboard</strong>
+        </div>
+
+        <div class="top-actions">
+          <span id="editorStatus" class="muted">Ready</span>
+          <button id="logoutButton" class="secondary-button">
+            Sign out
+          </button>
+        </div>
+      </header>
+
+      <section class="dashboard page-section" id="dashboardPage">
+        <div class="page-heading">
+          <div>
+            <span class="eyebrow">OVERVIEW</span>
+            <h1>Welcome back</h1>
+            <p>Manage and edit your GitHub repository files.</p>
+          </div>
+
+          <button id="refreshDashboard" class="secondary-button">
+            Refresh
+          </button>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span>Repositories</span>
+            <strong id="repoCount">0</strong>
+          </article>
+
+          <article class="stat-card">
+            <span>Selected repository</span>
+            <strong id="selectedRepo">None</strong>
+          </article>
+
+          <article class="stat-card">
+            <span>Editor status</span>
+            <strong id="changeStatus">Ready</strong>
+          </article>
+        </div>
+
+        <div class="panel">
+          <div class="panel-heading">
+            <div>
+              <h2>Your repositories</h2>
+              <p>Select a repository to browse its files.</p>
+            </div>
+
+            <button id="browseRepos" class="secondary-button">
+              Browse all
+            </button>
+          </div>
+
+          <div id="repositoryCards" class="repository-cards">
+            <p class="muted">Loading repositories...</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section hidden" id="repositoriesPage">
+        <div class="page-heading">
+          <div>
+            <span class="eyebrow">GITHUB</span>
+            <h1>Repositories</h1>
+            <p>Choose a repository to explore its files.</p>
+          </div>
+
+          <button id="refreshRepos" class="secondary-button">
+            Refresh
+          </button>
+        </div>
+
+        <div id="allRepositories" class="repository-cards"></div>
+      </section>
+
+      <section class="page-section hidden" id="editorPage">
+        <div class="page-heading">
+          <div>
+            <span class="eyebrow">DEVELOPMENT</span>
+            <h1>Code Editor</h1>
+            <p>Edit a text file and commit your changes to GitHub.</p>
+          </div>
+
+          <span id="unsavedIndicator" class="unsaved hidden">
+            Unsaved changes
+          </span>
+        </div>
+
+        <div class="editor-layout">
+          <aside class="file-explorer panel">
+            <div class="panel-heading">
+              <div>
+                <h2>Explorer</h2>
+                <p id="explorerRepoName">No repository selected</p>
+              </div>
+
+              <button
+                id="refreshFiles"
+                class="icon-button"
+                title="Refresh files"
+              >
+                ↻
+              </button>
+            </div>
+
+            <div class="branch-label">
+              Branch: <strong id="explorerBranch">—</strong>
+            </div>
+
+            <div id="fileList" class="file-list">
+              <p class="muted">Select a repository first.</p>
+            </div>
+          </aside>
+
+          <section class="editor-panel panel">
+            <div class="editor-toolbar">
+              <div class="file-tab" id="activeFileTab">
+                <span>▤</span>
+                <span id="currentFile">No file open</span>
+              </div>
+
+              <div class="toolbar-actions">
+                <button id="reloadFile" class="secondary-button">
+                  Reload
+                </button>
+
+                <button id="saveFile" class="primary-button" disabled>
+                  Save to GitHub
+                </button>
+              </div>
+            </div>
+
+            <div class="editor-meta">
+              <span id="currentBranch">Branch: —</span>
+              <span id="editorBadge">No file</span>
+            </div>
+
+            <div class="editor-notice" id="editorNotice">
+              Select a text file from the explorer to start editing.
+            </div>
+
+            <div class="code-editor-wrap">
+              <div id="lineNumbers" class="line-numbers">1</div>
+
+              <textarea
+                id="codeEditor"
+                spellcheck="false"
+                autocapitalize="off"
+                autocomplete="off"
+                autocorrect="off"
+                aria-label="Code editor"
+                placeholder="Open a file to edit its contents..."
+                disabled
+              ></textarea>
+            </div>
+
+            <footer class="editor-footer">
+              <span id="languageStatus">Plain text</span>
+              <span id="cursorPosition">Ln 1, Col 1</span>
+              <span id="editorConnection">GitHub</span>
+            </footer>
+
+            <div class="commit-area">
+              <label for="commitMessage">Commit message</label>
+
+              <input
+                id="commitMessage"
+                type="text"
+                maxlength="200"
+                placeholder="Describe your changes"
+              >
+
+              <p class="muted">
+                Saving creates a commit on the selected branch.
+              </p>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <div id="toast" class="toast hidden" role="status"></div>
+    </section>
+  </div>
+
+  <script src="/app.js" defer></script>
+</body>
+</html>
